@@ -4,10 +4,7 @@ const dbConnection = async() => {
 
     try {
 
-        await mongoose.connect( process.env.MONGODB_CONNECT, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        })
+        await mongoose.connect( process.env.MONGODB_CONNECT )
 
         console.log('Base de datos online')
         

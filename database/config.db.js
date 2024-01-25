@@ -4,7 +4,7 @@ const dbConnection = async() => {
 
     try {
 
-        await mongoose.connect( 'mongodb+srv://userStore:iNfTg1KCKpk1nhmV@clusterstore.guarp6q.mongodb.net/storeDB' )
+        await mongoose.connect( process.env.MONGODB_CONNECT )
 
         console.log('Base de datos online')
         

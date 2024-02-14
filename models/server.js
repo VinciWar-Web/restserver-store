@@ -8,7 +8,9 @@ class Server {
     constructor(){
         this.app = express()
         this.port = process.env.PORT || 3000
+
         this.usersPatch = '/api/users'
+        this.authPatch  = '/api/auth'
 
         // Conectar a base de datos
         this.connectDB()
@@ -35,6 +37,7 @@ class Server {
 
     router() {
         // Directorio Publico
+        this.app.use( this.authPatch, require('../routes/auth.router') )
         this.app.use( this.usersPatch, require('../routes/user.router') )
     }
 

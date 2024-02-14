@@ -23,8 +23,8 @@ router.get('/:id', [
 router.post('/',[
     // Validamos y preparamos los errores para el controlador
     check('name', 'El nombre es obligatorio').not().isEmpty(), // .not().isEmpty() que no este vacio
-    check('mail', 'El correo no es válido').isEmail(), // .isEmail() que sea un correo valido
-    check('mail').custom( emailExists ), // Verificar si el correo existe
+    check('email', 'El correo no es válido').isEmail(), // .isEmail() que sea un correo valido
+    check('email').custom( emailExists ), // Verificar si el correo existe
     check('password', 'La contraseña debe tener al menos 6 caracteres').isLength({ min: 6 }), // .isLength({ min: 6 }) minimo 6 caracteres
     // check('role', 'No es un rol valido').isIn(['ADMIN_ROLE', 'USER_ROLE']), 
     check('rol').custom( validatorRole ), // Validamos si el rol existe en la base de datos

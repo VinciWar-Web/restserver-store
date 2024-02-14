@@ -5,7 +5,7 @@ const UserSchema = Schema({
         type: String,
         require: [true, 'El nombre es obligatorio']
     },
-    mail:{
+    email:{
         type: String,
         require: [true, 'El correo es obligatorio'],
         unique: true
@@ -32,9 +32,10 @@ const UserSchema = Schema({
     },
 })
 
-// Excluye en la respuesta la propiedad __v, password y pasa el resto
+// Excluye en la respuesta la propiedad __v, password y _id y pasa el resto
 UserSchema.methods.toJSON = function(){
-    const { __v, password, ...user } = this.toObject()
+    const { __v, password, _id, ...user } = this.toObject()
+    user.uid = _id // Incluye de nuevo el _id y lo convierte en uid
     return user
 }
 

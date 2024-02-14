@@ -49,8 +49,8 @@ const userGET = async (req, res = response) => {
 // Controlador para crear un usuario 
 const userPOST = async (req = request, res = response) => {
 
-    const { name, mail, password, img, rol, state, google } = req.body
-    const user = new User({ name, mail, password, img, rol, state, google })
+    const { name, email, password, img, rol, state, google } = req.body
+    const user = new User({ name, email, password, img, rol, state, google })
 
     // Encriptar la contraseña 
     const salt = bcryptjs.genSaltSync()

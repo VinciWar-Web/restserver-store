@@ -1,8 +1,14 @@
 const { Router } = require('express')
 const { check } = require('express-validator')
-const { validateFields } = require('../middleware/validate-fields')
 const { validatorRole, emailExists, userExistsByID } = require('../helpers/db-validators')
-const { validateJWT } = require('../middleware/validate-jwt')
+
+const { 
+    validateFields, 
+    validateJWT, 
+    isAdminRole, 
+    validateAdminUser
+} = require('../middleware')
+
 const { 
     usersAllGET, 
     userGET,
@@ -13,16 +19,20 @@ const {
 
 const router = Router()
 
-router.get('/', usersAllGET )
+router.get('/',[
+    validateJWT, // Se requiere un Token para acceder a este recurso
+], usersAllGET )
 
 router.get('/:id', [
+    validateJWT, // Se requiere un Token para acceder a este recurso
     check('id', 'No es un ID valido').isMongoId(), // Validamos si el ID enviado en la query es valido
     check('id').custom( userExistsByID ), // Validamos si existe un usuario por el ID
     validateFields // middleware personal para validar los campos
 ], userGET )
 
 router.post('/',[
-    // Validamos y preparamos los errores para el controlador
+    validateJWT, // Se requiere un Token para acceder a este recurso
+    validateAdminUser, // Se requiere ser administrador para crear usuarios ADMIN_ROLE
     check('name', 'El nombre es obligatorio').not().isEmpty(), // .not().isEmpty() que no este vacio
     check('email', 'El correo no es válido').isEmail(), // .isEmail() que sea un correo valido
     check('email').custom( emailExists ), // Verificar si el correo existe
@@ -33,6 +43,7 @@ router.post('/',[
 ], userPOST )
 
 router.put('/:id', [
+    validateJWT, // Se requiere un Token para acceder a este recurso
     check('id', 'No es un ID valido').isMongoId(), // Validamos si el ID enviado en la query es valido
     check('id').custom( userExistsByID ), // Validamos si existe un usuario por el ID
     check('rol').custom( validatorRole ), // Validamos si el rol existe en la base de datos
@@ -40,7 +51,8 @@ router.put('/:id', [
 ],userPUT )
 
 router.delete('/:id',[
-    validateJWT,
+    validateJWT, // Se requiere un Token para acceder a este recurso
+    isAdminRole, // Se requiere ser ADMIN_ROLE para acceder a este recurso
     check('id', 'No es un ID valido').isMongoId(), // Validamos si el ID enviado en la query es valido
     check('id').custom( userExistsByID ), // Validamos si existe un usuario por el ID
     validateFields // middleware personal para validar los campos

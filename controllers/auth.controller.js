@@ -33,8 +33,8 @@ const login = async (req = request, res = response) => {
             })
         }
 
-        // Genera el JWT
-        const token = await generateJWT()
+        // Genera el JWT dentro del middleware generateJWT y lo firmamos con el ID del usuario
+        const token = await generateJWT( user.id )
 
         res.json({
             user,

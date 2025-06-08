@@ -99,11 +99,11 @@ const userDELETE = async (req, res = response) => {
 
     if ( state ){
         res.json({
-            msj: `Usuario ${ name } eliminado con exito`,
+            msj: `Usuario ${ name } eliminado con exito`
         })
     }else{
         res.json({
-            msj: `El suario ${ name } ya fue eliminado anteriormente`,
+            msj: `El suario ${ name } ya fue eliminado anteriormente`
         })
     }
 }
